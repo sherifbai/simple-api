@@ -132,4 +132,28 @@ class PostController extends Controller
             ]);
         }
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param string $title
+     * @return JsonResponse
+     */
+    public function search(string $title): JsonResponse
+    {
+        try {
+            $post = Post::query()->where('title', 'like', '%'.$title.'%')->get();
+
+            return response()->json([
+                'data' => $post,
+                'success' => true
+            ]);
+        } catch (Throwable $error) {
+            return response()->json([
+                'data' => null,
+                'success' => false,
+                'message' => $error->getMessage()
+            ]);
+        }
+    }
 }
